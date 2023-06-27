@@ -332,27 +332,187 @@ public class BankManager {
 	}
 }
 
-Customer Login
+
 package arul;
 
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.Scanner;
 
-public class CustemerSide {
-	static BankManager me = new BankManager();
+public class CustomerDetails {
+
 	static Scanner sc = new Scanner(System.in);
-	
-	public static void main(String[] args) {
-		
-		String n="murugan";
-		String s=sc.next();
-		System.out.println(s);
-		if(n.equals(s)) {
-			System.out.println("hisssss da");
+	static BankManager bm = new BankManager();
+
+
+	static boolean flag = true;
+
+	public static void LogInCustomerAc() throws InterruptedException {
+		boolean flag = true;
+Thread.sleep(1000);
+		while (flag) {
+			try {
+
+				System.err.println("select the options\n" + "==========>\n"
+
+						+ "1)with draw\n" + "2)check balance\n" + "3)deposit\n" + "4)Account details\n"
+						+ "5)modifyAccount\n" + "6)Exit");
+
+				int choice = sc.nextInt();
+				switch (choice) {
+				case 1:
+					withDraw();
+					break;
+				case 2:
+					checkBal();
+					break;
+				case 3:
+					Deposite();
+					break;
+				case 4:
+					accountDetails();
+					break;
+				case 5:
+					modifyAccount();
+					break;
+				case 6:
+					flag = false;
+					//System.out.println("Thank You for this app");
+					break;
+				default:
+					System.out.println("invalid input\n");
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("invalid input\n");
+				sc.next();
+				sc.next();
+
+			}
 		}
-		else {
-			System.out.println("pod");
-		}
-		
+
 	}
- }
-	
+
+	private static void Deposite() {
+		try {
+			System.out.println("Enter the Acno");
+			int acno = sc.nextInt();
+			for (int i = 0; i < bm.list.size(); i++) {
+
+				if (bm.list.get(i).getAcno() == acno) {
+					System.out.println("your balance" + bm.list.get(i).getBAL());
+					System.out.println("enter the Deposite amount");
+					int amt = sc.nextInt();
+					double bh = bm.list.get(i).getBAL();
+					bh = bh + amt;
+					bm.list.get(i).setBAL(bh);
+					System.out.println(" current balance  :" +bm.list.get(i).getBAL());
+				} else {
+					System.out.println("Sorry this acno not availble");
+				}
+			}
+		} catch (InputMismatchException e) {
+			System.out.println("invalid input");
+			sc.next();
+		}
+	}
+
+	public static void modifyAccount() {
+		try {
+			System.out.println("enter the acno");
+			int ano = sc.nextInt();
+			for (int i = 0; i < bm.list.size(); i++) {
+				if (bm.list.get(i).getAcno() == ano) {
+				long s=9999999999l;
+				long mob1=0;
+				while(mob1<=s) {
+					System.out.println("enter the Modify Mobile Number");
+					long mob=sc.nextLong();
+				if(mob<=s&&mob>99999999) {
+					
+					 mob1=mob;break;
+				}
+				else {
+					System.out.println("Enter the 10 digit in Mobile Number");
+				}
+				}
+						bm.list.get(i).setMobNO(mob1);
+					System.out.println("After modify mobileno is :" + bm.list.get(i).MobNO);
+					System.out.println("Your current account Details is:" + bm.list.get(i));
+				}
+				else {
+					System.out.println("this account not available");
+				}
+			}
+		} catch (InputMismatchException e) {
+			System.out.println("invalid input");
+			sc.next();
+		}
+
+	}
+
+	public static void accountDetails() {
+		try {
+			System.out.println("enter the acno");
+			int ano = sc.nextInt();
+			for (int i = 0; i < bm.list.size(); i++) {
+				if (bm.list.get(i).getAcno() == ano) {
+					System.out.println("Your current account Details is:" + bm.list.get(i));
+				} 
+				else {
+					System.out.println("this account not available");
+				}
+			}
+		} catch (InputMismatchException e) {
+			System.out.println("invalid input");
+			sc.next();
+		}
+	}
+
+	public static void checkBal() throws InterruptedException {
+		try {
+		Thread.sleep(2000);
+			System.out.println("enter the acno");
+			int ano = sc.nextInt();
+			for (int i = 0; i < bm.list.size(); i++) {
+				if (bm.list.get(i).getAcno() == ano) {
+					System.out.println(bm.list.get(i).getNAME() + " Your current Balance is:" + bm.list.get(i).getBAL());
+					return;
+				} 
+			}
+			System.out.println("No Account found with "+ ano);
+		} catch (InputMismatchException e) {
+			System.out.println("invalid input");
+			sc.next();
+		}
+
+	}
+
+	public static void withDraw() {
+		try {
+		System.out.println("enter the Acno");
+		int p=sc.nextInt();
+				for (int i = 0; i < bm.list.size(); i++) {
+				if (bm.list.get(i).getAcno() == p) {
+					System.out.println("enter the withdraw amount");
+						double mb=sc.nextDouble();
+					double m=0;
+					m=bm.list.get(i).getBAL()-mb;
+							bm.list.get(i).setBAL(m);
+						System.out.println("Your current balance is :" + bm.list.get(i).getBAL());
+						System.out.println("Your current account Details is:" + bm.list.get(i));
+					} 
+				else {
+						System.out.println("this account not available");
+					}
+			
+			}
+		}
+		catch (InputMismatchException e) {
+			System.out.println("invalid input");
+			sc.next();
+		}
+
+	}
+
+}
